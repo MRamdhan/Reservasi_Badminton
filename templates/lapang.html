@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Lapangan — Admin</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="brand">
+            <span>🏸</span>
+            <h2>Admin</h2>
+        </div>
+
+        <span class="nav-label">Menu</span>
+
+        <a href="/admin">
+            <span class="icon">📋</span> Dashboard
+        </a>
+        <a href="/admin/history">
+            <span class="icon">🕘</span> History
+        </a>
+        <a href="/admin/lapangan" class="active">
+            <span class="icon">🏟️</span> Kelola Lapangan
+        </a>
+
+        <div class="divider"></div>
+
+        <a href="/logout" class="logout-link">
+            <span class="icon">🚪</span> Keluar
+        </a>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="page-title">Kelola Lapangan</div>
+        <div class="page-subtitle">Tambah, edit, atau hapus data lapangan badminton</div>
+
+        <!-- FORM TAMBAH / EDIT -->
+        <div class="form-card">
+            {% if edit %}
+                <div class="edit-mode-banner">
+                    ✏️ Sedang mengedit — <strong>{{ edit.nama }}</strong>
+                </div>
+                <h2>✏️ Edit Lapangan</h2>
+                <form method="POST" action="/admin/lapangan/edit/{{ edit.id }}" enctype="multipart/form-data">
+            {% else %}
+                <h2>➕ Tambah Lapangan Baru</h2>
+                <form method="POST" action="/admin/lapangan/tambah" enctype="multipart/form-data">
+            {% endif %}
+
+                <div class="form-group">
+                    <label for="nama">Nama Lapangan</label>
+                    <input id="nama" type="text" name="nama"
+                           placeholder="Contoh: Lapangan A"
+                           value="{{ edit.nama if edit else '' }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="harga">Harga / Jam (Rp)</label>
+                    <input id="harga" type="number" name="harga"
+                           placeholder="Contoh: 50000"
+                           value="{{ edit.harga if edit else '' }}"
+                           min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea id="deskripsi" name="deskripsi"
+                              placeholder="Contoh: Lapangan indoor dengan lantai vinyl standar nasional">{{ edit.deskripsi if edit else '' }}</textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">
+                        {% if edit %}💾 Simpan Perubahan{% else %}➕ Tambah Lapangan{% endif %}
+                    </button>
+
+                    {% if edit %}
+                        <a href="/admin/lapangan" class="btn-reset">✕ Batal Edit</a>
+                    {% endif %}
+                </div>
+
+            </form>
+        </div>
+
+        <!-- DAFTAR LAPANGAN -->
+        <div class="section-header">
+            <h2>Daftar Lapangan</h2>
+            {% if lapangan %}
+                <span class="count-badge">{{ lapangan | length }} lapangan</span>
+            {% endif %}
+        </div>
+
+        {% if lapangan %}
+        <div class="grid">
+            {% for l in lapangan %}
+                <div class="court-card">
+                    <h3>{{ l.nama }}</h3>
+
+                    <div class="court-price">
+                        Rp {{ "{:,}".format(l.harga) }}
+                        <span style="font-size: 13px; font-weight: 500; color: var(--text-muted);">/jam</span>
+                    </div>
+
+                    <p class="court-desc">{{ l.deskripsi if l.deskripsi else '—' }}</p>
+
+                    <div class="action-group">
+                        <a href="/admin/lapangan/edit/{{ l.id }}" style="text-decoration: none;">
+                            <button class="btn btn-approve">✎ Edit</button>
+                        </a>
+                        <a href="/admin/lapangan/hapus/{{ l.id }}" style="text-decoration: none;"
+                           onclick="return confirm('Hapus lapangan {{ l.nama }}? Tindakan ini tidak bisa dibatalkan.')">
+                            <button class="btn btn-cancel">🗑 Hapus</button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="icon">🏟️</div>
+                <h3>Belum ada lapangan</h3>
+                <p>Tambahkan lapangan pertama menggunakan form di atas.</p>
+            </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

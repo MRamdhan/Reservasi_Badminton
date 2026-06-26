@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badminton Court — Reservasi Lapangan</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <nav>
+        <h2>🏸 Badminton Court</h2>
+        <div class="nav-links">
+            {% if session.get("user_id") %}
+                <span class="greeting">Halo, <strong>{{ session["nama"] }}</strong></span>
+                <a href="/logout" class="btn-logout">Keluar</a>
+            {% else %}
+                <a href="/login">Masuk</a>
+                <a href="/register" style="background: var(--accent); color: white; padding: 8px 16px; border-radius: 8px;">Daftar</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+        <div class="page-header" style="margin: 48px 0 32px;">
+            <h1 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">
+                Pilih Lapangan
+            </h1>
+            <p style="color: #64748b; font-size: 15px; margin-top: 6px;">
+                Reservasi lapangan badminton favorit kamu
+            </p>
+        </div>
+
+        <div class="container" style="margin: 0; padding: 0;">
+            {% for l in lapangan %}
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                        <h2>{{ l.nama }}</h2>
+                        <span class="status-badge">{{ l.status }}</span>
+                    </div>
+
+                    <div class="price">Rp {{ "{:,.0f}".format(l.harga) }} <span style="font-size: 14px; font-weight: 500; color: #64748b;">/jam</span></div>
+
+                    <div style="border-top: 1px solid #e4e8f0; margin: 20px 0;"></div>
+
+                    <a href="/detail/{{ l.id }}" style="text-decoration: none;">
+                        <button style="width: 100%; justify-content: center;">
+                            Lihat Detail &amp; Reservasi →
+                        </button>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

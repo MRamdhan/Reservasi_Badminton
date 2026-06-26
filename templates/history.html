@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Booking — Admin</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="brand">
+            <span>🏸</span>
+            <h2>Admin</h2>
+        </div>
+
+        <span class="nav-label">Menu</span>
+
+        <a href="/admin">
+            <span class="icon">📋</span> Dashboard
+        </a>
+        <a href="/admin/history" class="active">
+            <span class="icon">🕘</span> History
+        </a>
+        <a href="/admin/lapangan" class="active">
+            <span class="icon">🏟️</span> Kelola Lapangan
+        </a>
+
+        <div class="divider"></div>
+
+        <a href="/logout" class="logout-link">
+            <span class="icon">🚪</span> Keluar
+        </a>
+    </div>
+
+    <div class="content">
+        <div class="page-title">History Booking</div>
+        <div class="page-subtitle">Riwayat semua reservasi yang sudah selesai</div>
+
+        {% if booking %}
+        <div class="grid">
+            {% for b in booking %}
+                <div class="booking-card history">
+                    <div class="booking-card-header">
+                        <h3>Booking #{{ b.id }}</h3>
+                        <span class="badge finished">{{ b.status }}</span>
+                    </div>
+
+                    <div class="info-rows">
+                        <div class="info-row">
+                            <span class="label">👤 User</span>
+                            <span class="value">{{ b.user.nama }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">📞 Telepon</span>
+                            <span class="value">{{ b.user.telepon }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">🏸 Lapangan</span>
+                            <span class="value">{{ b.lapangan.nama }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">🕐 Waktu</span>
+                            <span class="value">{{ b.jam_mulai }} – {{ b.jam_selesai }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">📅 Tanggal</span>
+                            <span class="value">{{ b.tanggal }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="icon">📂</div>
+                <h3>Belum ada riwayat</h3>
+                <p>History booking akan muncul di sini setelah ada sesi yang selesai.</p>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

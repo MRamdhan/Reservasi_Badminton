@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lapangan.nama }} — Badminton Court</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <nav>
+        <h2>🏸 Badminton Court</h2>
+        <div class="nav-links">
+            <a href="/">← Kembali ke Beranda</a>
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{category}}">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="detail-wrapper">
+
+        <!-- Info Lapangan -->
+        <div class="detail-info">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+                <div>
+                    <h1>{{ lapangan.nama }}</h1>
+                    <p class="desc" style="margin-bottom: 0;">{{ lapangan.deskripsi }}</p>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding: 20px; background: var(--accent-light); border-radius: 12px; border: 1px solid #bfdbfe;">
+                <div>
+                    <div style="font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: .5px;">Harga per jam</div>
+                    <div class="price" style="margin: 0;">Rp {{ "{:,.0f}".format(lapangan.harga) }}</div>
+                </div>
+            </div>
+
+            <h2>Jadwal Tanggal {{ tanggal }}</h2>
+
+            <!-- Legenda -->
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                <span style="font-size: 12px; padding: 3px 10px; border-radius: 100px; background: #f0fdf4; color: #000000; font-weight: 600; border: 1px solid #ffffff;">● Tersedia</span>
+                <span style="font-size: 12px; padding: 3px 10px; border-radius: 100px; background: #fffbeb; color: #d97706; font-weight: 600; border: 1px solid #fde68a;">● Menunggu</span>
+                <span style="font-size: 12px; padding: 3px 10px; border-radius: 100px; background: #eff6ff; color: #2563eb; font-weight: 600; border: 1px solid #bfdbfe;">● Dibooking</span>
+                <span style="font-size: 12px; padding: 3px 10px; border-radius: 100px; background: #f0fdf4; color: #15803d; font-weight: 600; border: 1px solid #86efac;">● Bermain</span>
+            </div>
+
+            <div class="timeline">
+                {% for t in timeline %}
+                    <div class="slot {{ t.status }}">
+                        <div class="time">{{ t.jam }}</div>
+                        <div class="label">
+                            {% if t.status == "pending" %}
+                                Menunggu ACC
+                            {% elif t.status == "approved" %}
+                                Sudah Dibooking
+                            {% elif t.status == "play" %}
+                                Sedang Bermain
+                            {% else %}
+                                Tersedia
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Reservasi -->
+        <div class="reservasi-card">
+            <h2>Reservasi Lapangan</h2>
+
+            <form method="POST" action="/booking/{{ lapangan.id }}">
+                <div class="form-group">
+                    <label for="tanggal">Tanggal</label>
+                    <input id="tanggal" type="date" name="tanggal" value="{{ tanggal }}" onchange="ubahTanggal()" required>
+                </div>
+                <div class="form-group">
+                    <label for="mulai">Jam Mulai</label>
+                    <input id="mulai" type="time" name="mulai" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="selesai">Jam Selesai</label>
+                    <input id="selesai" type="time" name="selesai" required>
+                </div>
+
+                <div style="padding: 14px; background: var(--bg); border-radius: 10px; font-size: 13px; color: var(--text-muted); margin: 16px 0; border: 1px solid var(--border);">
+                    Biaya akan dihitung berdasarkan durasi bermain. Pastikan waktu yang dipilih tersedia.
+                </div>
+
+                <button type="submit" style="width: 100%; justify-content: center; padding: 14px; font-size: 15px;">
+                    Reservasi Sekarang
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    function ubahTanggal(){
+        let tanggal = document.getElementById("tanggal").value;
+
+        window.location.href = "/detail/{{lapangan.id}}?tanggal="+tanggal;
+    }
+</script>
+</html>
