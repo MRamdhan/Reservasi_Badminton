@@ -84,7 +84,7 @@ Video Demo Aplikasi dapat dilihat melalui Link Youtube Berikut:
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/USERNAME/BadmintonReservation.git
+git clone https://github.com/MRamdhan/Reservasi_Badminton.git
 ```
 
 Masuk ke folder project
