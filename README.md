@@ -80,6 +80,13 @@ Video Demo Aplikasi dapat dilihat melalui Link Youtube Berikut:
 ---
 
 # Cara Menjalankan Aplikasi
+Video Cara Menjalankan Aplikasi melalui Link Youtube Berikut:
+
+**Link Youtube**
+
+👉 **https://youtu.be/syZwDX5rzIo?si=F_R_7ckYLml5j7Zo**
+
+atau mengikuti step step berikut
 
 ## 1. Clone Repository
 
