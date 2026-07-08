@@ -8,6 +8,15 @@ Pada aplikasi ini, pengguna dapat melihat informasi lapangan tanpa harus login. 
 
 ---
 
+## 👥 Anggota Kelompok
+
+- **MOCHAMAD RAMDHAN IRAWAN** (20240040199)  
+- **PIRNI** (20240040179)  
+- **RAHARJA JAKA PRASETIA** (20240040119)  
+- **REZA ALFIAN MABA** (20240040248)
+
+---
+
 ## Fitur Aplikasi
 
 ### User
